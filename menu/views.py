@@ -1,22 +1,25 @@
-from django.shortcuts import render
+import requests
 
-def home(request):
-    return render(request, 'menu/home.html')
+from django.shortcuts import render #reder renderização
 
 def cardapio(request):
-    busca = request.GET.get('busca', '') #Pega o termo digitado na busca
-    drinks = []
-    if busca:
-        url = f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={busca}'
-        response = request.get(url)
-        data = response.json()
-        drinks = data.get('drinks', [])
-    
-    range_ingredientes = [str(i) for i in range(1,16)]
-    
-    return render(request, 'menu/cardapio.html', {
-        'drinks' : drinks,
-        'range_ingredientes' : range_ingredientes,
-        'busca' : busca,
-        'buscou' : bool(busca)
-    })
+  busca = request.GET.get('busca', '') #pega o termo digitado
+  drinks = []
+  if busca:
+    url = f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={busca}'
+    response = requests.get(url)
+    data = response.json()
+    drinks = data.get('drinks', [])
+
+  range_ingedientes = [str(i) for i in range(1,16)] #1 a 15
+
+  return render(requests, 'menu/cardapio.html', { 
+  'drinks' : drinks,
+  "range_ingredientes" : range_ingedientes,
+  'busca'  : busca,
+  'buscou' : bool(busca), #define se o usuário buscou algo
+})
+
+# Create your views here.
+def home(request):
+  return render (request, 'menu/home.html')
