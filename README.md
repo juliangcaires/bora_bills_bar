@@ -7,3 +7,9 @@ venv\Scripts\activate
 python manage.py migrate
 
 python manage.py runserver
+
+
+
+superuser
+julian
+julian 123
